@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../utils/constants.dart';
@@ -8,7 +10,11 @@ class ChatComponent extends StatefulWidget {
   final String chatId;
   final String chatType;
 
-  const ChatComponent({Key? key, required this.chatName, required this.chatId, required this.chatType})
+  const ChatComponent(
+      {Key? key,
+      required this.chatName,
+      required this.chatId,
+      required this.chatType})
       : super(key: key);
 
   @override
@@ -16,20 +22,10 @@ class ChatComponent extends StatefulWidget {
 }
 
 class _ChatComponentState extends State<ChatComponent> {
-  List<Map<String, String>> chatMessages = [
-    {"userId": userIdMine, "message": "Hello, how are you?", "name": "Adarsh"},
-    {
-      "userId": "7a96-454a-953f-c6470a41-118d031ee767",
-      "message": "Hi! I'm doing well, thank you.",
-      "name": "Adwait"
-    },
-    {
-      "userId": "118d031ee767-c6470a41-7a96-454a-953f",
-      "message": "How about you?",
-      "name": "Adwait"
-    },
-    {"userId": userIdMine, "message": "I'm good too!", "name": "Adarsh"},
-  ];
+  final userController = Get.find<UserController>();
+  String userIdMine = '';
+
+  List<Map<String, String>> chatMessages = [];
 
   IO.Socket? socket;
   TextEditingController messageController = TextEditingController();
@@ -73,9 +69,31 @@ class _ChatComponentState extends State<ChatComponent> {
   @override
   void initState() {
     super.initState();
-    if(widget.chatType == 'group') {
-      
-    connectToGroupSocket();
+
+    final userId = userController.user.value['userId'];
+    setState(() {
+      userIdMine = userId;
+      chatMessages = [
+        {
+          "userId": userIdMine,
+          "message": "Hello, how are you?",
+          "name": "Adarsh"
+        },
+        {
+          "userId": "7a96-454a-953f-c6470a41-118d031ee767",
+          "message": "Hi! I'm doing well, thank you.",
+          "name": "Adwait"
+        },
+        {
+          "userId": "118d031ee767-c6470a41-7a96-454a-953f",
+          "message": "How about you?",
+          "name": "Adwait"
+        },
+        {"userId": userIdMine, "message": "I'm good too!", "name": "Adarsh"},
+      ];
+    });
+    if (widget.chatType == 'group') {
+      connectToGroupSocket();
     } else {
       connectToDoctorSocket();
     }
@@ -157,7 +175,7 @@ class _ChatComponentState extends State<ChatComponent> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-                'assets/icons/bg.jpeg'), // Replace with your image path
+                'assets/images/bg.jpeg'), // Replace with your image path
             fit: BoxFit.cover,
           ),
         ),
@@ -298,7 +316,11 @@ class _ChatComponentState extends State<ChatComponent> {
                   ),
                   const SizedBox(width: 8.0),
                   GestureDetector(
-                    onTap: () => {widget.chatType == 'group' ? sendGroupMessage(userIdMine, "Abhishek") : sendDoctorMessage(userIdMine, "Adarsh")},
+                    onTap: () => {
+                      widget.chatType == 'group'
+                          ? sendGroupMessage(userIdMine, "Abhishek")
+                          : sendDoctorMessage(userIdMine, "Adarsh")
+                    },
                     child: const Icon(
                       Icons.send,
                       color: Colors.blue,

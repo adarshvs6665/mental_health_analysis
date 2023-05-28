@@ -19,14 +19,13 @@ class Body extends StatelessWidget {
     QuestionController _questionController = Get.put(QuestionController());
     return Stack(
       children: [
-        SvgPicture.asset("assets/icons/bg.svg", fit: BoxFit.fill),
+        SvgPicture.asset("assets/images/bg.svg", fit: BoxFit.fill),
         SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 child: ProgressBar(),
               ),
               const SizedBox(height: kDefaultPadding),

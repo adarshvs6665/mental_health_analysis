@@ -55,7 +55,7 @@ class _ChatListPageState extends State<ChatListPage> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/icons/bg.jpeg'),
+            image: AssetImage('assets/images/bg.jpeg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -96,12 +96,12 @@ class _ChatListPageState extends State<ChatListPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Perform the desired action when the button is pressed
-            print('Floating Action Button pressed');
-          },
-          child: Icon(Icons.add),
-        ),
+        onPressed: () {
+          // Perform the desired action when the button is pressed
+          print('Floating Action Button pressed');
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }

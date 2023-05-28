@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/screens/signup/signup.dart';
 import 'package:mental_health_analysis/screens/welcome/welcome_screen.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
@@ -17,34 +18,47 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  Future<void> login() async {
-    final url = '${baseUrl}/login'; // Replace with your actual API endpoint
+  Future<void> loginUser() async {
+    // Get.to(MainWrapper());
     final email = emailController.text;
     final password = passwordController.text;
 
+    const url = '$baseUrl/login'; // Replace with your API endpoint
+
     try {
-      final response = await http.post(
-        Uri.parse(url),
-        body: {
-          'email': email,
-          'password': password,
-        },
-      );
-
+      final headers = {'Content-Type': 'application/json'};
+      final payload = jsonEncode({
+        'email': email,
+        'password': password,
+      });
+      final response =
+          await http.post(Uri.parse(url), headers: headers, body: payload);
+      final userController = Get.find<UserController>();
       final responseData = jsonDecode(response.body);
-
       if (response.statusCode == 200) {
+        // API call successful
+        final userData = responseData['data'];
+        // Store user info using GetX
+        print(userData);
+        userController.setUser(userData);
+
+        // Navigate to another page
         Get.to(WelcomeScreen());
       } else {
+        // Handle API error
+        final responseMessage = responseData['message'];
         Fluttertoast.showToast(
-          msg: responseData['message'],
-          backgroundColor: Colors.red,
-        );
+            msg: responseMessage,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 6.0);
       }
-    } catch (error) {
-      // Exception occurred
-      // You can handle the exception here
-      print('An error occurred: $error');
+    } catch (e) {
+      // Handle network error
+      print('Network Error: $e');
     }
   }
 
@@ -60,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 400,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/icons/bg.jpeg'),
+                          image: AssetImage('assets/images/bg.jpeg'),
                           fit: BoxFit.fill)),
                   child: Stack(
                     children: <Widget>[
@@ -72,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image:
-                                      AssetImage('assets/icons/light-1.png'))),
+                                      AssetImage('assets/images/light-1.png'))),
                         ),
                       ),
                       Positioned(
@@ -83,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image:
-                                      AssetImage('assets/icons/light-2.png'))),
+                                      AssetImage('assets/images/light-2.png'))),
                         ),
                       ),
                       Positioned(
@@ -94,7 +108,8 @@ class _LoginPageState extends State<LoginPage> {
                         child: Container(
                           decoration: const BoxDecoration(
                               image: DecorationImage(
-                                  image: AssetImage('assets/icons/clock.png'))),
+                                  image:
+                                      AssetImage('assets/images/clock.png'))),
                         ),
                       ),
                       Positioned(
@@ -171,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       GestureDetector(
                           onTap: () {
-                            login();
+                            loginUser();
                           },
                           child: Container(
                             height: 50,

@@ -17,4 +17,4 @@ const double kDefaultPadding = 20.0;
 // home
 const baseUrl = "http://192.168.29.27:3000/api/v1/user/";
 const socketURL = "http://192.168.29.27:3000/";
-const userIdMine = 'c6470a41-7a96-454a-953f-118d031ee767';
+// const userIdMine = 'c6470a41-7a96-454a-953f-118d031ee767';

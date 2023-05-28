@@ -59,7 +59,7 @@ class _SignupPageState extends State<SignupPage> {
                   height: 400,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/icons/bg.jpeg'),
+                          image: AssetImage('assets/images/bg.jpeg'),
                           fit: BoxFit.fill)),
                   child: Stack(
                     children: <Widget>[
@@ -71,7 +71,7 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image:
-                                      AssetImage('assets/icons/light-1.png'))),
+                                      AssetImage('assets/images/light-1.png'))),
                         ),
                       ),
                       Positioned(
@@ -82,7 +82,7 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image:
-                                      AssetImage('assets/icons/light-2.png'))),
+                                      AssetImage('assets/images/light-2.png'))),
                         ),
                       ),
                       Positioned(
@@ -93,7 +93,8 @@ class _SignupPageState extends State<SignupPage> {
                         child: Container(
                           decoration: const BoxDecoration(
                               image: DecorationImage(
-                                  image: AssetImage('assets/icons/clock.png'))),
+                                  image:
+                                      AssetImage('assets/images/clock.png'))),
                         ),
                       ),
                       Positioned(
