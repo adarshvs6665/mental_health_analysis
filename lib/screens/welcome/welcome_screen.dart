@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/screens/chat/chats.dart';
+import 'package:mental_health_analysis/screens/settings/settings.dart';
 import 'package:mental_health_analysis/screens/task/tasks.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 import 'package:mental_health_analysis/screens/chat/chat_component.dart';
@@ -109,7 +110,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     } else if (_selectedIndex == 2) {
       bodyWidget = ChatListPage();
     } else {
-      bodyWidget = ChatListPage();
+      bodyWidget = SettingsPage();
     }
 
     return Scaffold(
