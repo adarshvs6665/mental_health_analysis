@@ -22,11 +22,10 @@ class Option extends StatelessWidget {
         builder: (qnController) {
           Color getTheRightColor() {
             if (qnController.isAnswered) {
-              if (index == qnController.correctAns) {
+              if (index == qnController.selectedAns) {
                 return kGreenColor;
-              } else if (index == qnController.selectedAns &&
-                  qnController.selectedAns != qnController.correctAns) {
-                return kRedColor;
+              } else  {
+                return kGrayColor;
               }
             }
             return kGrayColor;
