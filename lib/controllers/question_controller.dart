@@ -18,6 +18,7 @@ class QuestionController extends GetxController
   PageController get pageController => this._pageController;
 
   var questionsList = [].obs;
+  List chosenAnswersList = [].obs;
 
   bool _isAnswered = false;
   bool get isAnswered => this._isAnswered;
@@ -25,7 +26,7 @@ class QuestionController extends GetxController
   late int _selectedAns;
   int get selectedAns => this._selectedAns;
 
-  RxInt _questionNumber = 0.obs;
+  RxInt _questionNumber = 1.obs;
   RxInt get questionNumber => this._questionNumber;
 
   @override
@@ -64,6 +65,7 @@ class QuestionController extends GetxController
     _animationController.stop();
     update();
 
+    chosenAnswersList.add(selectedIndex);
     // Once user select an ans after 3s it will go to the next qn
     Future.delayed(Duration(seconds: 1), () {
       nextQuestion();

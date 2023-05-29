@@ -8,6 +8,7 @@ class ScoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     QuestionController _qnController = Get.put(QuestionController());
+    print(_qnController.chosenAnswersList);
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,

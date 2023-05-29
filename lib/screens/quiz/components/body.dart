@@ -84,7 +84,12 @@ class _BodyState extends State<Body> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                child: Text.rich(
+                child: Obx(
+                  () => 
+                
+                
+                
+                Text.rich(
                   TextSpan(
                     text:
                         "Question ${_questionController.questionNumber.value}",
@@ -104,6 +109,10 @@ class _BodyState extends State<Body> {
                   ),
                 ),
               ),
+              
+              )
+              
+              ,
               const Divider(thickness: 1.5),
               const SizedBox(height: kDefaultPadding),
               Expanded(
