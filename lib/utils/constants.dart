@@ -15,6 +15,9 @@ const kCyan = Color.fromARGB(255, 98, 254, 218);
 const double kDefaultPadding = 20.0;
 
 // home
-const baseUrl = "http://192.168.29.27:3000/api/v1/user/";
-const socketURL = "http://192.168.29.27:3000/";
-// const userIdMine = 'c6470a41-7a96-454a-953f-118d031ee767';
+// const baseUrl = "http://192.168.29.27:3000/api/v1/user/";
+// const socketURL = "http://192.168.29.27:3000/";
+
+// office
+const baseUrl = "http://192.168.1.9:3000/api/v1/user/";
+const socketURL = "http://192.168.1.9:3000/";

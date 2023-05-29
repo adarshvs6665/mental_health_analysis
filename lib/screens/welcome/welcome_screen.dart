@@ -36,11 +36,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final userController = Get.find<UserController>();
-    // final userId = userController.user.value;
-    // print(userId);
-    // print("hasdiuhfausdhfu");
-
     Widget bodyWidget;
     if (_selectedIndex == 0) {
       bodyWidget = Stack(
