@@ -45,7 +45,6 @@ class _BodyState extends State<Body> {
                 id: question['id'],
                 question: question['question'],
                 options: List<String>.from(question['options']),
-                answer: question['answer_index'],
               ),
             )
             .toList();

@@ -8,7 +8,8 @@ import 'dart:convert';
 
 import 'package:mental_health_analysis/utils/constants.dart';
 
-class QuestionController extends GetxController with SingleGetTickerProviderMixin {
+class QuestionController extends GetxController
+    with SingleGetTickerProviderMixin {
   late AnimationController _animationController;
   late Animation _animation;
   Animation get animation => this._animation;
@@ -63,7 +64,10 @@ class QuestionController extends GetxController with SingleGetTickerProviderMixi
     _animationController.stop();
     update();
 
-    nextQuestion();
+    // Once user select an ans after 3s it will go to the next qn
+    Future.delayed(Duration(seconds: 1), () {
+      nextQuestion();
+    });
   }
 
   void nextQuestion() {
@@ -82,6 +86,7 @@ class QuestionController extends GetxController with SingleGetTickerProviderMixi
   }
 
   void updateTheQnNum(int index) {
+    print("update question called");
     _questionNumber.value = index + 1;
   }
 }
