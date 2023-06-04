@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-
+import 'package:http/http.dart' as http;
 import '../../utils/constants.dart';
 
 class ChatComponent extends StatefulWidget {
@@ -23,7 +25,8 @@ class ChatComponent extends StatefulWidget {
 
 class _ChatComponentState extends State<ChatComponent> {
   final userController = Get.find<UserController>();
-  String userIdMine = '';
+  late String userIdMine;
+  late String userName;
 
   List<Map<String, String>> chatMessages = [];
 
@@ -31,6 +34,7 @@ class _ChatComponentState extends State<ChatComponent> {
   TextEditingController messageController = TextEditingController();
 
   void sendGroupMessage(userId, name) {
+    // final String userId = userController.user.value['doctorId'];
     String message = messageController.text.trim();
     if (message.isNotEmpty) {
       setState(() {
@@ -48,7 +52,37 @@ class _ChatComponentState extends State<ChatComponent> {
     }
   }
 
+  Future<void> fetchChatMessages() async {
+    final url = '${baseUrl}/fetch-chat-messages';
+
+    final queryParameters = {
+      'chatId': widget.chatId,
+    };
+
+    final response = await http
+        .get(Uri.parse(url).replace(queryParameters: queryParameters));
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      final List<dynamic> chatsArray = responseData['data'];
+
+      final parsedChats = chatsArray.map((chat) {
+        return {
+          'message': chat['message'].toString(),
+          'userId': chat['userId'].toString(),
+          'name': chat['name'].toString(),
+        };
+      }).toList();
+      // print(chatsArray);
+      // print("##############################################################");
+      setState(() {
+        chatMessages = parsedChats;
+      });
+    }
+  }
+
   void sendDoctorMessage(userId, name) {
+    // final String userId = userController.user.value['doctorId'];
     String message = messageController.text.trim();
     if (message.isNotEmpty) {
       setState(() {
@@ -69,34 +103,19 @@ class _ChatComponentState extends State<ChatComponent> {
   @override
   void initState() {
     super.initState();
+    // print(userIdMine);
 
-    final userId = userController.user.value['userId'];
-    setState(() {
-      userIdMine = userId;
-      chatMessages = [
-        {
-          "userId": userIdMine,
-          "message": "Hello, how are you?",
-          "name": "Adarsh"
-        },
-        {
-          "userId": "7a96-454a-953f-c6470a41-118d031ee767",
-          "message": "Hi! I'm doing well, thank you.",
-          "name": "Adwait"
-        },
-        {
-          "userId": "118d031ee767-c6470a41-7a96-454a-953f",
-          "message": "How about you?",
-          "name": "Adwait"
-        },
-        {"userId": userIdMine, "message": "I'm good too!", "name": "Adarsh"},
-      ];
-    });
     if (widget.chatType == 'group') {
       connectToGroupSocket();
     } else {
       connectToDoctorSocket();
     }
+
+    fetchChatMessages();
+    setState(() {
+      userIdMine = userController.user.value['userId'];
+      userName = userController.user.value['name'];
+    });
   }
 
   @override
@@ -113,7 +132,7 @@ class _ChatComponentState extends State<ChatComponent> {
     });
 
     socket!.onConnect((_) {
-      print('Connected to Socket.IO server');
+      // print('Connected to Socket.IO server');
       // Emit an event or perform any necessary actions upon connection
       // For example, you can emit an event to join the group chat room
       socket!.emit('joinGroupChat', {'chatId': widget.chatId});
@@ -142,7 +161,7 @@ class _ChatComponentState extends State<ChatComponent> {
     });
 
     socket!.onConnect((_) {
-      print('Connected to Socket.IO server');
+      // print('Connected to Socket.IO server');
       // Emit an event or perform any necessary actions upon connection
       // For example, you can emit an event to join the group chat room
       socket!.emit('joinDoctorChat', {'chatId': widget.chatId});
@@ -188,7 +207,6 @@ class _ChatComponentState extends State<ChatComponent> {
                   final message = chatMessages[index];
                   final isUserMessage = message['userId'] == userIdMine;
                   final messageContent = message['message'];
-
                   if (!isUserMessage) {
                     final name = message['name'];
                     return Column(
@@ -318,8 +336,8 @@ class _ChatComponentState extends State<ChatComponent> {
                   GestureDetector(
                     onTap: () => {
                       widget.chatType == 'group'
-                          ? sendGroupMessage(userIdMine, "Abhishek")
-                          : sendDoctorMessage(userIdMine, "Adarsh")
+                          ? sendGroupMessage(userIdMine, userName)
+                          : sendDoctorMessage(userIdMine, userName)
                     },
                     child: const Icon(
                       Icons.send,

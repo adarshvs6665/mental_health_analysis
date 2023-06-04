@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mental_health_analysis/controllers/userController.dart';
+import 'package:mental_health_analysis/screens/login/login.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 
 class SettingsPage extends StatelessWidget {
+  final userController = Get.find<UserController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,9 +67,7 @@ class SettingsPage extends StatelessWidget {
                         ListTile(
                           leading: const Icon(Icons.subscriptions),
                           title: const Text('Subscription'),
-                          onTap: () {
-                            // Handle Privacy tap
-                          },
+                          onTap: () {},
                         ),
                         // Add more options as needed
                       ],
@@ -82,8 +85,8 @@ class SettingsPage extends StatelessWidget {
                             MaterialStateProperty.all<Color>(kCyan),
                       ),
                       onPressed: () {
-                        // Perform the desired action when the button is pressed
-                        print('Logout button pressed');
+                        userController.clearUserDetails();
+                        Get.off(LoginPage());
                       },
                       child: const Text(
                         'Logout',

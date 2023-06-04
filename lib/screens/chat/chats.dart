@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/models/Chats.dart';
 import 'package:mental_health_analysis/screens/chat/chat_component.dart';
 import 'dart:convert';
@@ -13,10 +14,15 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
   List<dynamic> chatList = [];
+  final userController = Get.find<UserController>();
+  late String userIdMine;
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      userIdMine = userController.user.value['userId'];
+    });
     fetchChatList();
   }
 
@@ -25,7 +31,7 @@ class _ChatListPageState extends State<ChatListPage> {
 
     final headers = {'Content-Type': 'application/json'};
     final queryParameters = {
-      'userId': "c6470a41-7a96-454a-953f-118d031ee767",
+      'userId': userIdMine,
     };
 
     final response = await http.get(

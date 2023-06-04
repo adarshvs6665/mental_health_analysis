@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:mental_health_analysis/screens/login/login.dart';
-import 'package:mental_health_analysis/screens/welcome/welcome_screen.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 
 class SignupPage extends StatefulWidget {
@@ -21,14 +20,17 @@ class _SignupPageState extends State<SignupPage> {
 
   Future<void> signUp() async {
     final url = '${baseUrl}/register'; // Replace with your API URL
+    final payload = jsonEncode({
+      'email': emailController.text,
+      'password': passwordController.text,
+      'mobileNumber': mobileNumberController.text,
+      'name': nameController.text,
+    });
+    final headers = {'Content-Type': 'application/json'};
     final response = await http.post(
       Uri.parse(url),
-      body: {
-        'email': emailController.text,
-        'password': passwordController.text,
-        'mobileNumber': mobileNumberController.text,
-        'name': nameController.text,
-      },
+      headers: headers,
+      body: payload
     );
 
     final responseData = jsonDecode(response.body);
@@ -138,6 +140,25 @@ class _SignupPageState extends State<SignupPage> {
                                     bottom: BorderSide(color: Colors.grey)),
                               ),
                               child: TextField(
+                                controller: nameController,
+                                style: const TextStyle(
+                                  color: kDarkBlue, // Set the font color here
+                                ),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Name",
+                                  hintStyle: TextStyle(color: Colors.grey[400]),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(color: Colors.grey)),
+                              ),
+                              child: TextField(
+                                controller: emailController,
                                 style: const TextStyle(
                                   color: Color(
                                       0xFF1C2341), // Set the font color here
@@ -156,6 +177,7 @@ class _SignupPageState extends State<SignupPage> {
                                     bottom: BorderSide(color: Colors.grey)),
                               ),
                               child: TextField(
+                                controller: passwordController,
                                 style: const TextStyle(
                                   color: kDarkBlue, // Set the font color here
                                 ),
@@ -168,30 +190,14 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             Container(
                               padding: const EdgeInsets.all(8.0),
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(color: Colors.grey)),
-                              ),
                               child: TextField(
+                                controller: mobileNumberController,
                                 style: const TextStyle(
                                   color: kDarkBlue, // Set the font color here
                                 ),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Mobile Number",
-                                  hintStyle: TextStyle(color: Colors.grey[400]),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                style: const TextStyle(
-                                  color: kDarkBlue, // Set the font color here
-                                ),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Name",
                                   hintStyle: TextStyle(color: Colors.grey[400]),
                                 ),
                               ),
