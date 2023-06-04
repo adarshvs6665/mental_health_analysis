@@ -113,7 +113,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        backgroundColor: Color.fromARGB(37, 44, 73, 255),
+        backgroundColor: Color.fromARGB(255, 44, 72, 255),
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home, color: _selectedIndex == 0 ? kCyan : null),

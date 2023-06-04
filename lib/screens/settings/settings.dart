@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/screens/login/login.dart';
+import 'package:mental_health_analysis/screens/subscription/subscription.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -12,6 +13,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Settings'),
+          backgroundColor: const Color.fromARGB(37, 44, 73, 255),
         ),
         body: Container(
           decoration: const BoxDecoration(
@@ -67,7 +69,9 @@ class SettingsPage extends StatelessWidget {
                         ListTile(
                           leading: const Icon(Icons.subscriptions),
                           title: const Text('Subscription'),
-                          onTap: () {},
+                          onTap: () {
+                            Get.to(SubscriptionPage());
+                          },
                         ),
                         // Add more options as needed
                       ],

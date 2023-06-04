@@ -57,6 +57,7 @@ class _ChatListPageState extends State<ChatListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chats'),
+        backgroundColor: const Color.fromARGB(37, 44, 73, 255),
       ),
       body: Container(
         decoration: const BoxDecoration(
