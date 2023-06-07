@@ -93,6 +93,7 @@ class _TaskScreenState extends State<TaskScreen> {
             return SizedBox(
                 height: 80,
                 child: Card(
+                  color: kDarkBlue,
                   margin: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 5.0),
                   child: ListTile(
@@ -121,13 +122,6 @@ class _TaskScreenState extends State<TaskScreen> {
                 ));
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Perform the desired action when the button is pressed
-          print('Floating Action Button pressed');
-        },
-        child: const Icon(Icons.add),
       ),
     );
   }

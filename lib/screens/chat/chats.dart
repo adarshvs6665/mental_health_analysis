@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/models/Chats.dart';
 import 'package:mental_health_analysis/screens/chat/chat_component.dart';
+import 'package:mental_health_analysis/screens/doctorList/add_doctors.dart';
 import 'dart:convert';
 import '../../utils/constants.dart';
 
@@ -75,6 +76,7 @@ class _ChatListPageState extends State<ChatListPage> {
             final chatId = chat['chatId'];
 
             return Card(
+              color: kDarkBlue,
               margin:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
               child: ListTile(
@@ -104,8 +106,7 @@ class _ChatListPageState extends State<ChatListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Perform the desired action when the button is pressed
-          print('Floating Action Button pressed');
+          Get.to(DoctorListPage());
         },
         child: Icon(Icons.add),
       ),
