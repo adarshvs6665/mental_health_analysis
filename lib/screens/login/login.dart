@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
         userController.setUser(userData);
 
         // Navigate to another page
-        Get.to(WelcomeScreen(loadIndex: 0));
+        Get.off(WelcomeScreen(loadIndex: 0));
       } else {
         // Handle API error
         final responseMessage = responseData['message'];
