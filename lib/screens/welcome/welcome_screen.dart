@@ -10,16 +10,23 @@ import 'package:mental_health_analysis/screens/chat/chat_component.dart';
 import 'package:mental_health_analysis/screens/quiz/quiz_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({super.key, required this.loadIndex});
+
+  final int loadIndex;
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
 
   @override
   void initState() {
     super.initState();
+
+    setState(() {
+      _selectedIndex = widget.loadIndex;
+    });
   }
 
   static List<Widget> _pages = [

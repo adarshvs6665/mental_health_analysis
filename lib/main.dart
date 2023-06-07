@@ -15,7 +15,7 @@ void main() async {
   Widget initialPage;
 
   if (userId != null) {
-    initialPage = WelcomeScreen();
+    initialPage = WelcomeScreen(loadIndex: 0);
   } else {
     initialPage = LoginPage();
   }
