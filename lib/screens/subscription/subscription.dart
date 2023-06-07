@@ -1,12 +1,52 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mental_health_analysis/components/custom_text.dart';
 import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/screens/login/login.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 
-class SubscriptionPage extends StatelessWidget {
+class SubscriptionPage extends StatefulWidget {
+  @override
+  _SubscriptionPageState createState() => _SubscriptionPageState();
+}
+
+class _SubscriptionPageState extends State<SubscriptionPage> {
   final userController = Get.find<UserController>();
+  late final subscriptionFlag;
+  late final userId;
+
+  Future<void> subscribe() async {
+    // Get.to(MainWrapper());
+
+    const url = '$baseUrl/subscribe'; // Replace with your API endpoint
+
+    final headers = {'Content-Type': 'application/json'};
+    final payload = jsonEncode({"userId": userId});
+    final response =
+        await http.post(Uri.parse(url), headers: headers, body: payload);
+    final responseData = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      final userData = responseData['data'];
+      // Store user info using GetX
+      print(userData);
+      userController.setUser(userData);
+      Get.back();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      subscriptionFlag = userController.user.value['subscription'];
+      userId = userController.user.value['userId'];
+    });
+    print(subscriptionFlag);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +79,10 @@ class SubscriptionPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Spacer(),
                       Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.only(top: 12.0),
-                        child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 12.0),
+                          child: Container(
                             decoration: BoxDecoration(
                               color: kDarkBlue,
                               borderRadius: BorderRadius.circular(10),
@@ -54,22 +93,43 @@ class SubscriptionPage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    'Premium Plan',
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                      color: kCyan,
+                                  if (!subscriptionFlag) ...[
+                                    const Text(
+                                      'Premium Plan',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: kCyan,
+                                      ),
                                     ),
-                                  ),
+                                  ] else ...[
+                                    const Text(
+                                      'Current Plan',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: kCyan,
+                                      ),
+                                    ),
+                                  ],
                                   const SizedBox(height: 30),
-                                  const Text(
-                                    "This ia a lifetime plan which provides unlimited analysis, chat with doctors, and much more. So what are you waiting for?😍",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
+                                  if (!subscriptionFlag) ...[
+                                    const Text(
+                                      "This ia a lifetime plan which provides unlimited analysis, chat with doctors, and much more. So what are you waiting for?😍",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
+                                  ] else ...[
+                                    const Text(
+                                      "Enjoy your lifetime plan in which you get unlimited analysis, chat with doctors, and much more.😍",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                   const SizedBox(height: 30),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 12.0),
@@ -77,11 +137,25 @@ class SubscriptionPage extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("Plan Price",
+                                        if (!subscriptionFlag) ...[
+                                          const Text(
+                                            "Plan Price",
                                             style: TextStyle(
-                                                color: kCyan, fontSize: 20)),
+                                              color: kCyan,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ] else ...[
+                                          const Text(
+                                            "Amount Paid",
+                                            style: TextStyle(
+                                              color: kCyan,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ],
                                         RichText(
-                                          text: TextSpan(
+                                          text: const TextSpan(
                                             style: TextStyle(
                                               fontSize: 21,
                                               color: Colors.white,
@@ -103,29 +177,35 @@ class SubscriptionPage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            )),
-                      )),
-
-                      const SizedBox(height: 16),
-                      Container(
-                        height: 50,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(kCyan),
-                          ),
-                          onPressed: () {
-                            // Perform the desired action when the button is pressed
-                            print('Subscribe');
-                          },
-                          child: const Text(
-                            'Subscribe',
-                            style: TextStyle(
-                                color: kDarkBlue, fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
                           ),
                         ),
                       ),
+                      const SizedBox(height: 16),
+                      if (!subscriptionFlag) ...[
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(kCyan),
+                            ),
+                            onPressed: () {
+                              // Perform the desired action when the button is pressed
+                              subscribe();
+                            },
+                            child: const Text(
+                              'Subscribe',
+                              style: TextStyle(
+                                color: kDarkBlue,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]
                     ],
                   ),
                 ),
@@ -136,84 +216,4 @@ class SubscriptionPage extends StatelessWidget {
       ),
     );
   }
-
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: const Text('Subscription'),
-  //     ),
-  //     body: Container(
-  //       decoration: BoxDecoration(
-  //         image: DecorationImage(
-  //           image: AssetImage('assets/images/bg.jpeg'),
-  //           fit: BoxFit.cover,
-  //         ),
-  //       ),
-  //       child: Column(
-  //         children: [
-  //           Expanded(
-  //             child: Padding(
-  //               padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0, bottom: 16.0),
-  //               child: Align(
-  //                 alignment: Alignment.center,
-  //                 child: Column(
-
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   children: [
-  //                     Text(
-  //                       'Premium Plan',
-  //                       style: TextStyle(
-  //                         fontSize: 30,
-  //                         fontWeight: FontWeight.bold,
-  //                         color: Colors.white,
-  //                       ),
-  //                     ),
-  //                     SizedBox(height: 16),
-  //                     Text(
-  //                       'Click here to purchase a lifetime plan which provides unlimited analysis, chat with doctors, and much more.',
-  //                       style: TextStyle(
-  //                         fontSize: 16,
-  //                         color: Colors.white,
-  //                       ),
-  //                       textAlign: TextAlign.center,
-  //                     ),
-  //                     SizedBox(height: 32),
-  // Text(
-  //   'Price: ₹4999',
-  //   style: TextStyle(
-  //     fontSize: 18,
-  //     fontWeight: FontWeight.bold,
-  //     color: Colors.white,
-  //   ),
-  // ),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //           Padding(
-  //             padding: const EdgeInsets.all(16.0),
-  //             child: Container(
-  //               height: 50,
-  //               width: double.infinity,
-  //               child: ElevatedButton(
-  //                 style: ButtonStyle(
-  //                   backgroundColor: MaterialStateProperty.all<Color>(kCyan),
-  //                 ),
-  //                 onPressed: () {},
-  //                 child: const Text(
-  //                   'Subscribe',
-  //                   style: TextStyle(
-  //                     color: kDarkBlue,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }
