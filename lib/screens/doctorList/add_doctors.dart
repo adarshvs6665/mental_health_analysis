@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/models/Doctor.dart';
@@ -62,50 +63,19 @@ class _DoctorListPageState extends State<DoctorListPage> {
     final responseData = jsonDecode(response.body);
     if (response.statusCode == 200) {
       print(responseData);
-      // API call successful
-      // final userData = responseData['data'];
-      // Store user info using GetX
-      // print(userData);
-      // userController.setUser(userData);
-
-      // Navigate to another page
-      // Get.to(WelcomeScreen());
+      Get.off(WelcomeScreen(loadIndex: 2));
     } else {
       // Handle API error
       final responseMessage = responseData['message'];
-      // Fluttertoast.showToast(
-      //     msg: responseMessage,
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.orange,
-      //     textColor: Colors.white,
-      //     fontSize: 6.0);
+      Fluttertoast.showToast(
+          msg: responseMessage,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 6.0);
     }
-
-    // const url = '$baseUrl/doctors';
-
-    // final headers = {'Content-Type': 'application/json'};
-    // final queryParameters = {
-    //   'userId': userIdMine,
-    // };
-
-    // final response = await http.get(
-    //     Uri.parse(url).replace(queryParameters: queryParameters),
-    //     headers: headers);
-    // if (response.statusCode == 200) {
-    //   final responseData = json.decode(response.body);
-    //   final List<dynamic> chatData = responseData['data'];
-    //   final List<Doctor> doctors =
-    //       chatData.map((json) => Doctor.fromJson(json)).toList();
-
-    //   setState(() {
-    //     doctorsList = responseData['data'];
-    //   });
-    // } else {
-    //   // Handle error
-    //   print('Error: ${response.statusCode}');
-    // }
   }
 
   @override

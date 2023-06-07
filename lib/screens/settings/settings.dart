@@ -5,8 +5,23 @@ import 'package:mental_health_analysis/screens/login/login.dart';
 import 'package:mental_health_analysis/screens/subscription/subscription.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   final userController = Get.find<UserController>();
+  late final userName;
+
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      userName = userController.user.value['name'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +50,18 @@ class SettingsPage extends StatelessWidget {
                       Icons.person,
                       size: 80,
                       color: kDarkBlue,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Text(
+                      userName,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

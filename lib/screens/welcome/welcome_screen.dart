@@ -19,12 +19,15 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   late int _selectedIndex;
+  late String userName;
+  final userController = Get.find<UserController>();
 
   @override
   void initState() {
     super.initState();
 
     setState(() {
+      userName = userController.user.value['name'];
       _selectedIndex = widget.loadIndex;
     });
   }
@@ -63,7 +66,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 children: [
                   Spacer(flex: 2), //2/6
                   Text(
-                    "Welcome Adarsh,",
+                    "Welcome ${userName},",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
