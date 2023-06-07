@@ -79,6 +79,7 @@ class _TaskScreenState extends State<TaskScreen> {
         title: Text('Tasks for :  $date'),
         toolbarHeight: 60,
         backgroundColor: const Color.fromARGB(37, 44, 73, 255),
+        automaticallyImplyLeading: false,
       ),
       body: Container(
         decoration: const BoxDecoration(
