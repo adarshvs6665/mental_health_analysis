@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:mental_health_analysis/controllers/question_controller.dart';
-
+import 'package:mental_health_analysis/controllers/questionController.dart';
 import '../../../utils/constants.dart';
 
 class Option extends StatelessWidget {
@@ -17,14 +16,14 @@ class Option extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<QuestionController>(
-        init: QuestionController(),
-        builder: (qnController) {
+    return GetBuilder<QuestionController2>(
+        init: QuestionController2(),
+        builder: (questionController) {
           Color getTheRightColor() {
-            if (qnController.isAnswered) {
-              if (index == qnController.selectedAns) {
+            if (questionController.isAnswered) {
+              if (index == questionController.selectedAns) {
                 return kGreenColor;
-              } else  {
+              } else {
                 return kGrayColor;
               }
             }

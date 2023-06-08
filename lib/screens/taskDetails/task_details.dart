@@ -16,7 +16,9 @@ class TaskDetailsScreen extends StatefulWidget {
 class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    
+    Scaffold(
       appBar: AppBar(
         title: Text(widget.task.taskName),
         backgroundColor: const Color.fromARGB(37, 44, 73, 255),
@@ -49,7 +51,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(top: 12.0),
-                        child: Container(
+                        child: 
+                        
+                        Container(
                             decoration: BoxDecoration(
                               color: kDarkBlue,
                               borderRadius: BorderRadius.circular(10),

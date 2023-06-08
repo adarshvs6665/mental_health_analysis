@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
-import 'package:mental_health_analysis/models/Questions.dart';
+import 'package:mental_health_analysis/models/Question.dart';
 import 'package:mental_health_analysis/screens/score/score_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -49,8 +49,8 @@ class QuestionController extends GetxController
 
   @override
   void onClose() {
-    _animationController.dispose();
-    _pageController.dispose();
+    // _animationController.dispose();
+    // _pageController.dispose();
     super.onClose();
   }
 
@@ -66,10 +66,15 @@ class QuestionController extends GetxController
     update();
 
     chosenAnswersList.add(selectedIndex);
+    print(chosenAnswersList);
+    print(
+        "asdfas##############################################################");
     // Once user select an ans after 3s it will go to the next qn
     Future.delayed(Duration(seconds: 1), () {
       nextQuestion();
     });
+    pageController.nextPage(
+          duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   void nextQuestion() {
@@ -83,6 +88,9 @@ class QuestionController extends GetxController
       _animationController.reset();
       _animationController.forward().whenComplete(nextQuestion);
     } else {
+      _questionNumber.value = 1;
+      _isAnswered = false;
+      _animationController.stop();
       Get.to(ScoreScreen());
     }
   }
