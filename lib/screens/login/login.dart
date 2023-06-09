@@ -38,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
         // API call successful
         final userData = responseData['data'];
         // Store user info using GetX
-        print(userData);
         userController.setUser(userData);
 
         // Navigate to another page

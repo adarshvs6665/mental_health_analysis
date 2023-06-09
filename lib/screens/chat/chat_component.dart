@@ -76,8 +76,6 @@ class _ChatComponentState extends State<ChatComponent> {
           'name': chat['name'].toString(),
         };
       }).toList();
-      // print(chatsArray);
-      // print("##############################################################");
       setState(() {
         chatMessages = parsedChats;
       });
@@ -106,14 +104,11 @@ class _ChatComponentState extends State<ChatComponent> {
   @override
   void initState() {
     super.initState();
-    // print(userIdMine);
-
     if (widget.chatType == 'group') {
       connectToGroupSocket();
     } else {
       connectToDoctorSocket();
     }
-
     fetchChatMessages();
     setState(() {
       userIdMine = userController.user.value['userId'];
@@ -140,7 +135,6 @@ class _ChatComponentState extends State<ChatComponent> {
     });
 
     socket!.onConnect((_) {
-      // print('Connected to Socket.IO server');
       // Emit an event or perform any necessary actions upon connection
       // For example, you can emit an event to join the group chat room
       socket!.emit('joinGroupChat', {'chatId': widget.chatId});
@@ -169,7 +163,6 @@ class _ChatComponentState extends State<ChatComponent> {
     });
 
     socket!.onConnect((_) {
-      // print('Connected to Socket.IO server');
       // Emit an event or perform any necessary actions upon connection
       // For example, you can emit an event to join the group chat room
       socket!.emit('joinDoctorChat', {'chatId': widget.chatId});

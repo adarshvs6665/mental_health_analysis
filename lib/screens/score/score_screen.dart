@@ -26,8 +26,6 @@ class _ScoreScreenState extends State<ScoreScreen> {
       final headers = {'Content-Type': 'application/json'};
       final payload = jsonEncode(
           {"userId": userId, "score": questionController.totalScore});
-
-      print(payload);
       final response =
           await http.post(Uri.parse(url), headers: headers, body: payload);
       final responseData = jsonDecode(response.body);

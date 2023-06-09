@@ -46,7 +46,6 @@ class _BodyState extends State<Body> {
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         final List<dynamic> data = responseData['data'];
-        // print(data);
         // Map the dynamic objects to Question objects
         final List<Question> fetchedQuestions = data.map((item) {
           return Question(

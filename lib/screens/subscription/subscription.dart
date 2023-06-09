@@ -32,7 +32,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     if (response.statusCode == 200) {
       final userData = responseData['data'];
       // Store user info using GetX
-      print(userData);
       userController.setUser(userData);
       print(userController.user.value);
       Get.to(WelcomeScreen(loadIndex: 0));

@@ -55,7 +55,6 @@ class _TaskScreenState extends State<TaskScreen> {
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body) as Map<String, dynamic>;
-        // print(responseData['data']);
         final data = responseData['data'];
         final tasksList = data['tasks'] as List<dynamic>;
         final date = data['assignedDate'] as String;

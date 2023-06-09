@@ -61,20 +61,14 @@ class QuestionController extends GetxController
   void checkAns(Question question, int selectedIndex) {
     _isAnswered = true;
     _selectedAns = selectedIndex;
-
     _animationController.stop();
     update();
-
     chosenAnswersList.add(selectedIndex);
-    print(chosenAnswersList);
-    print(
-        "asdfas##############################################################");
-    // Once user select an ans after 3s it will go to the next qn
     Future.delayed(Duration(seconds: 1), () {
       nextQuestion();
     });
     pageController.nextPage(
-          duration: Duration(milliseconds: 300), curve: Curves.ease);
+        duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   void nextQuestion() {
@@ -96,7 +90,6 @@ class QuestionController extends GetxController
   }
 
   void updateTheQnNum(int index) {
-    print("update question called");
     _questionNumber.value = index + 1;
   }
 }

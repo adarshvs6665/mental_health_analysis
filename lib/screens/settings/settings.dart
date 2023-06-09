@@ -77,7 +77,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           title: const Text('Edit Profile'),
                           onTap: () {
                             // Handle Edit Profile tap
-                            print('tapped');
                           },
                         ),
                         ListTile(

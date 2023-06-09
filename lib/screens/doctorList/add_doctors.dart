@@ -62,7 +62,6 @@ class _DoctorListPageState extends State<DoctorListPage> {
     // final userController = Get.find<UserController>();
     final responseData = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      print(responseData);
       Get.off(WelcomeScreen(loadIndex: 2));
     } else {
       // Handle API error

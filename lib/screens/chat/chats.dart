@@ -43,7 +43,6 @@ class _ChatListPageState extends State<ChatListPage> {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final List<dynamic> chatData = responseData['data'];
-      print(chatData);
       final List<Chats> chats =
           chatData.map((json) => Chats.fromJson(json)).toList();
 
