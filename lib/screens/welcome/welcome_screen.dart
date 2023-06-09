@@ -56,7 +56,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             width: double.infinity,
             height: double.infinity,
             child: SvgPicture.asset(
-              "assets/images/bg.svg",
+              "assets/images/bg.jpeg",
               fit: BoxFit.fill,
             ),
           ),

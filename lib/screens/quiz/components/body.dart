@@ -76,7 +76,14 @@ class _BodyState extends State<Body> {
     if (render) {
       return Stack(
         children: [
-          SvgPicture.asset("assets/images/bg.svg", fit: BoxFit.fill),
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/bg.jpeg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
