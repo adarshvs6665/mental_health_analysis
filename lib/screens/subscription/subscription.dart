@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:mental_health_analysis/components/custom_text.dart';
 import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/screens/login/login.dart';
+import 'package:mental_health_analysis/screens/welcome/welcome_screen.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 
 class SubscriptionPage extends StatefulWidget {
@@ -33,7 +34,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       // Store user info using GetX
       print(userData);
       userController.setUser(userData);
-      Get.back();
+      print(userController.user.value);
+      Get.to(WelcomeScreen(loadIndex: 0));
     }
   }
 

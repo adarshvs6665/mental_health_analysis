@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:mental_health_analysis/components/custom_row.dart';
+import 'package:get/get.dart';
 import 'package:mental_health_analysis/components/custom_text.dart';
+import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/models/Task.dart';
+import 'package:mental_health_analysis/screens/welcome/welcome_screen.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 
 class TaskDetailsScreen extends StatefulWidget {
@@ -14,6 +18,33 @@ class TaskDetailsScreen extends StatefulWidget {
 }
 
 class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
+  final userController = Get.find<UserController>();
+  late final userId;
+
+  Future<void> completeTask(taskId) async {
+    // Get.to(MainWrapper());
+
+    const url = '$baseUrl/complete-task'; // Replace with your API endpoint
+
+    final headers = {'Content-Type': 'application/json'};
+    final payload = jsonEncode({"userId": userId, "taskId": taskId});
+    final response =
+        await http.post(Uri.parse(url), headers: headers, body: payload);
+    final responseData = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      Get.to(WelcomeScreen(loadIndex: 1));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      userId = userController.user.value['userId'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,18 +166,28 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(kCyan),
+                            backgroundColor: widget.task.status == 'PENDING'
+                                ? MaterialStateProperty.all<Color>(kCyan)
+                                : MaterialStateProperty.all<Color>(kDarkBlue),
                           ),
                           onPressed: () {
-                            // Perform the desired action when the button is pressed
-                            print('Complete Task button pressed');
+                            if (widget.task.status == 'PENDING') {
+                              completeTask(widget.task.taskId);
+                            }
                           },
-                          child: const Text(
-                            'Complete Task',
-                            style: TextStyle(
-                                color: kDarkBlue, fontWeight: FontWeight.bold),
-                          ),
+                          child: widget.task.status == 'PENDING'
+                              ? const Text(
+                                  'Complete Task',
+                                  style: TextStyle(
+                                      color: kDarkBlue,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              : const Text(
+                                  'Completed',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
                         ),
                       ),
                     ],

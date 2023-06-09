@@ -17,11 +17,13 @@ class _ChatListPageState extends State<ChatListPage> {
   List<dynamic> chatList = [];
   final userController = Get.find<UserController>();
   late String userIdMine;
+  late bool subscriptionFlag;
 
   @override
   void initState() {
     super.initState();
     setState(() {
+      subscriptionFlag = userController.user.value['subscription'];
       userIdMine = userController.user.value['userId'];
     });
     fetchChatList();
@@ -56,61 +58,64 @@ class _ChatListPageState extends State<ChatListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chats'),
-        backgroundColor: const Color.fromARGB(37, 44, 73, 255),
-        automaticallyImplyLeading: false,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/bg.jpeg'),
-            fit: BoxFit.cover,
+        appBar: AppBar(
+          title: const Text('Chats'),
+          backgroundColor: const Color.fromARGB(37, 44, 73, 255),
+          automaticallyImplyLeading: false,
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bg.jpeg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: ListView.builder(
+            itemCount: chatList.length,
+            itemBuilder: (context, index) {
+              final chat = chatList[index];
+              final chatName = chat['chatName'];
+              final chatType = chat['chatType'];
+              final chatId = chat['chatId'];
+
+              return Card(
+                color: kDarkBlue,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+                child: ListTile(
+                  leading: chatType == 'group'
+                      ? const Icon(
+                          Icons.group_rounded,
+                          size: 40,
+                          color: Colors.green,
+                        )
+                      : const Icon(
+                          Icons.account_circle,
+                          size: 40,
+                          color: Colors.blue,
+                        ),
+                  title: Text(chatName),
+                  subtitle: Text(chatType),
+                  onTap: () {
+                    // Handle chat item tap event
+                    // Navigate to chat details page or perform any desired action
+                    Get.to(ChatComponent(
+                        chatId: chatId,
+                        chatName: chatName,
+                        chatType: chatType));
+                  },
+                ),
+              );
+            },
           ),
         ),
-        child: ListView.builder(
-          itemCount: chatList.length,
-          itemBuilder: (context, index) {
-            final chat = chatList[index];
-            final chatName = chat['chatName'];
-            final chatType = chat['chatType'];
-            final chatId = chat['chatId'];
-
-            return Card(
-              color: kDarkBlue,
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
-              child: ListTile(
-                leading: chatType == 'group'
-                    ? const Icon(
-                        Icons.group_rounded,
-                        size: 40,
-                        color: Colors.green,
-                      )
-                    : const Icon(
-                        Icons.account_circle,
-                        size: 40,
-                        color: Colors.blue,
-                      ),
-                title: Text(chatName),
-                subtitle: Text(chatType),
-                onTap: () {
-                  // Handle chat item tap event
-                  // Navigate to chat details page or perform any desired action
-                  Get.to(ChatComponent(
-                      chatId: chatId, chatName: chatName, chatType: chatType));
+        floatingActionButton: subscriptionFlag
+            ? FloatingActionButton(
+                onPressed: () {
+                  Get.to(DoctorListPage());
                 },
-              ),
-            );
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(DoctorListPage());
-        },
-        child: Icon(Icons.add),
-      ),
-    );
+                child: Icon(Icons.add),
+              )
+            : null);
   }
 }

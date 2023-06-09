@@ -124,47 +124,69 @@ class _DoctorListPageState extends State<DoctorListPage> {
               fit: BoxFit.cover,
             ),
           ),
-          child: ListView.builder(
-            itemCount: doctorsList.length,
-            itemBuilder: (context, index) {
-              final name = doctorsList[index]['name'];
-              final id = doctorsList[index]['doctorId'];
-              final isChecked = selectedDoctors.contains(id);
-              return Card(
-                  color: kDarkBlue,
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 5.0),
-                  child: ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
-                    leading: Checkbox(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+          child: doctorsList.length > 0
+              ? ListView.builder(
+                  itemCount: doctorsList.length,
+                  itemBuilder: (context, index) {
+                    final name = doctorsList[index]['name'];
+                    final id = doctorsList[index]['doctorId'];
+                    final isChecked = selectedDoctors.contains(id);
+                    return Card(
+                        color: kDarkBlue,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 5.0),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 7),
+                          leading: Checkbox(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            value: isChecked,
+                            onChanged: (value) {
+                              setState(() {
+                                if (isChecked) {
+                                  selectedDoctors.remove(id);
+                                } else {
+                                  selectedDoctors.add(id!);
+                                }
+                              });
+                            },
+                          ),
+                          title: Text(name!),
+                          onTap: () {
+                            setState(() {
+                              if (isChecked) {
+                                selectedDoctors.remove(id!);
+                              } else {
+                                selectedDoctors.add(id!);
+                              }
+                            });
+                          },
+                        ));
+                  },
+                )
+              : Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.done_all_outlined,
+                        color: kCyan,
+                        size: 80.0,
                       ),
-                      value: isChecked,
-                      onChanged: (value) {
-                        setState(() {
-                          if (isChecked) {
-                            selectedDoctors.remove(id);
-                          } else {
-                            selectedDoctors.add(id!);
-                          }
-                        });
-                      },
-                    ),
-                    title: Text(name!),
-                    onTap: () {
-                      setState(() {
-                        if (isChecked) {
-                          selectedDoctors.remove(id!);
-                        } else {
-                          selectedDoctors.add(id!);
-                        }
-                      });
-                    },
-                  ));
-            },
-          ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        'All doctors added!',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ),
     );
