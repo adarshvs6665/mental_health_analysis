@@ -91,59 +91,81 @@ class _TaskScreenState extends State<TaskScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: tasks.length > 0 ?
-        
-        ListView.builder(
-          itemCount: tasks.length,
-          itemBuilder: (context, index) {
-            return Card(
-              color: kDarkBlue,
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
-              child: ListTile(
-                contentPadding: EdgeInsets.all(8),
-                leading: const Icon(
-                  Icons.task,
-                  size: 40,
-                  color: kCyan,
-                ),
-                trailing: tasks[index].status == "PENDING"
-                    ? const Icon(
-                        Icons.timer,
-                        color: kCyan,
-                      )
-                    : const Icon(
-                        Icons.done,
+        child: tasks.length > 0
+            ? ListView.builder(
+                itemCount: tasks.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: kDarkBlue,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 5.0),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.all(8),
+                      leading: const Icon(
+                        Icons.task,
+                        size: 40,
                         color: kCyan,
                       ),
-                title: Text(tasks[index].taskName),
-                subtitle: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    double lineHeight = 20.0; // Adjust line height as needed
-                    int maxLines = (constraints.maxHeight.isFinite)
-                        ? constraints.maxHeight ~/ lineHeight
-                        : 3; // Default value if maxHeight is not finite
+                      trailing: tasks[index].status == "PENDING"
+                          ? const Icon(
+                              Icons.timer,
+                              color: kCyan,
+                            )
+                          : const Icon(
+                              Icons.done,
+                              color: kCyan,
+                            ),
+                      title: Text(tasks[index].taskName),
+                      subtitle: LayoutBuilder(
+                        builder:
+                            (BuildContext context, BoxConstraints constraints) {
+                          double lineHeight =
+                              20.0; // Adjust line height as needed
+                          int maxLines = (constraints.maxHeight.isFinite)
+                              ? constraints.maxHeight ~/ lineHeight
+                              : 3; // Default value if maxHeight is not finite
 
-                    return Wrap(
-                      children: [
-                        Text(
-                          tasks[index].taskDescription,
-                          maxLines: maxLines,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                onTap: () {
-                  Get.to(TaskDetailsScreen(
-                    task: tasks[index],
-                  ));
+                          return Wrap(
+                            children: [
+                              Text(
+                                tasks[index].taskDescription,
+                                maxLines: maxLines,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      onTap: () {
+                        Get.to(TaskDetailsScreen(
+                          task: tasks[index],
+                        ));
+                      },
+                    ),
+                  );
                 },
+              )
+            : Container(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.thumb_down_rounded,
+                      color: kCyan,
+                      size: 80.0,
+                    ),
+                    SizedBox(height: 20.0),
+                    Text(
+                      'Nothing to show!',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            );
-          },
-        ) : Text("Hii"),
       ),
     );
   }
