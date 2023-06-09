@@ -43,6 +43,7 @@ class _ChatListPageState extends State<ChatListPage> {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final List<dynamic> chatData = responseData['data'];
+      print(chatData);
       final List<Chats> chats =
           chatData.map((json) => Chats.fromJson(json)).toList();
 
@@ -77,6 +78,7 @@ class _ChatListPageState extends State<ChatListPage> {
               final chatName = chat['chatName'];
               final chatType = chat['chatType'];
               final chatId = chat['chatId'];
+              final recipientPhone = chat['recipientPhone'];
 
               return Card(
                 color: kDarkBlue,
@@ -102,7 +104,8 @@ class _ChatListPageState extends State<ChatListPage> {
                     Get.to(ChatComponent(
                         chatId: chatId,
                         chatName: chatName,
-                        chatType: chatType));
+                        chatType: chatType,
+                        recipientPhone: recipientPhone));
                   },
                 ),
               );

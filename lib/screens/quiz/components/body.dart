@@ -20,16 +20,21 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   late QuestionController2 questionController;
   List<Question> questionsLocal = [];
+  bool render = false;
 
   @override
   void initState() {
-    print("init");
+    super.initState();
 
     setState(() {
       questionController = Get.put(QuestionController2());
     });
     fetchQuestions();
-    super.initState();
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        render = true;
+      });
+    });
   }
 
   void fetchQuestions() async {
@@ -68,56 +73,78 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SvgPicture.asset("assets/images/bg.svg", fit: BoxFit.fill),
-        SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: kDefaultPadding),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                child: Obx(
-                  () => Text.rich(
-                    TextSpan(
-                      text:
-                          "Question ${questionController.currentQuestionIndex}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: kSecondaryColor),
-                      children: [
-                        TextSpan(
-                          text: "/${questionsLocal.length}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(color: kSecondaryColor),
-                        ),
-                      ],
+    if (render) {
+      return Stack(
+        children: [
+          SvgPicture.asset("assets/images/bg.svg", fit: BoxFit.fill),
+          SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: kDefaultPadding),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  child: Obx(
+                    () => Text.rich(
+                      TextSpan(
+                        text:
+                            "Question ${questionController.currentQuestionIndex}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(color: kSecondaryColor),
+                        children: [
+                          TextSpan(
+                            text: "/${questionsLocal.length}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(color: kSecondaryColor),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const Divider(thickness: 1.5),
-              const SizedBox(height: kDefaultPadding),
-              Expanded(
-                child: PageView.builder(
-                  // Block swipe to next qn
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: questionController.pageController,
-                  // onPageChanged: questionController.updateTheQnNum,
-                  itemCount: questionsLocal.length,
-                  itemBuilder: (context, index) =>
-                      QuestionCard(question: questionsLocal[index]),
+                const Divider(thickness: 1.5),
+                const SizedBox(height: kDefaultPadding),
+                Expanded(
+                  child: PageView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: questionController.pageController,
+                    itemCount: questionsLocal.length,
+                    itemBuilder: (context, index) =>
+                        QuestionCard(question: questionsLocal[index]),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+        ],
+      );
+    } else {
+      return Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(
+              Icons.lock_clock_outlined,
+              color: kCyan,
+              size: 80.0,
+            ),
+            SizedBox(height: 20.0),
+            Text(
+              'Loading!',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
-      ],
-    );
+      );
+    }
   }
 }

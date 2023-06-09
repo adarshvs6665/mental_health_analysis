@@ -109,7 +109,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                                       if (questionController.totalScore <=
                                           15) ...[
                                         const Text(
-                                          "You seem to be having a really bad day. It's a part of life. This too shall pass.  Don't be afraid to reachout. You can contact the psychologists available in the app for guidance.",
+                                          "You seem to be having a really bad day. It's a part of life. This too shall pass.  Don't be afraid to reachout. You can contact the psychologists available in the app for guidance after subscription.",
                                           style: TextStyle(
                                             fontSize: 18,
                                             color: Colors.white,

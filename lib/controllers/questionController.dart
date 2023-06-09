@@ -13,6 +13,7 @@ class QuestionController2 extends GetxController {
   int totalQuestions = 0;
 
   void setQuestions(List<Question> newQuestions) {
+    pageController = PageController();
     questions.clear();
     questions.addAll(newQuestions);
     totalQuestions = newQuestions.length;
@@ -20,7 +21,6 @@ class QuestionController2 extends GetxController {
     isAnswered = false;
     selectedAns = -1;
     totalScore = 0;
-    pageController = PageController();
   }
 
   void selectOption(int index, int score) {

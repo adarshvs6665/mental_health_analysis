@@ -5,18 +5,21 @@ import 'package:get/get.dart';
 import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 import '../../utils/constants.dart';
 
 class ChatComponent extends StatefulWidget {
   final String chatName;
   final String chatId;
   final String chatType;
+  final String recipientPhone;
 
   const ChatComponent(
       {Key? key,
       required this.chatName,
       required this.chatId,
-      required this.chatType})
+      required this.chatType,
+      required this.recipientPhone})
       : super(key: key);
 
   @override
@@ -124,6 +127,11 @@ class _ChatComponentState extends State<ChatComponent> {
     super.dispose();
   }
 
+  void openDialer() async {
+    Uri url = Uri.parse('tel:+91${widget.recipientPhone}');
+    await launchUrl(url);
+  }
+
   Future<void> connectToGroupSocket() async {
     // Replace the URL with your Socket.IO server URL
     socket = IO.io('${socketURL}', <String, dynamic>{
@@ -189,6 +197,11 @@ class _ChatComponentState extends State<ChatComponent> {
       appBar: AppBar(
         title: Text(chatName),
         backgroundColor: const Color.fromARGB(37, 44, 73, 255),
+        actions: [
+          if (widget.chatType != "group") ...[
+            IconButton(icon: const Icon(Icons.phone), onPressed: openDialer),
+          ]
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(
