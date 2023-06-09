@@ -55,10 +55,12 @@ class _TaskScreenState extends State<TaskScreen> {
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body) as Map<String, dynamic>;
-        final data = responseData['data'] as List<dynamic>;
-        final date = responseData['date'] as String;
+        // print(responseData['data']);
+        final data = responseData['data'];
+        final tasksList = data['tasks'] as List<dynamic>;
+        final date = data['assignedDate'] as String;
 
-        final List<Task> tasks = parseTasks(data);
+        final List<Task> tasks = parseTasks(tasksList);
         setState(() {
           this.tasks = tasks;
           this.date = date;
@@ -73,10 +75,11 @@ class _TaskScreenState extends State<TaskScreen> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tasks for :  $date'),
+        title: Text('Tasks for: $date'),
         toolbarHeight: 60,
         backgroundColor: const Color.fromARGB(37, 44, 73, 255),
         automaticallyImplyLeading: false,
@@ -88,41 +91,59 @@ class _TaskScreenState extends State<TaskScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: ListView.builder(
+        child: tasks.length > 0 ?
+        
+        ListView.builder(
           itemCount: tasks.length,
           itemBuilder: (context, index) {
-            return SizedBox(
-                height: 80,
-                child: Card(
-                  color: kDarkBlue,
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 5.0),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.task,
-                      size: 40,
-                      color: kCyan,
-                    ),
-                    trailing: tasks[index].status == "PENDING"
-                        ? const Icon(
-                            Icons.timer,
-                            color: kCyan,
-                          )
-                        : const Icon(
-                            Icons.done,
-                            color: kCyan,
-                          ),
-                    title: Text(tasks[index].taskName),
-                    subtitle: Text(tasks[index].taskDescription),
-                    onTap: () {
-                      Get.to(TaskDetailsScreen(
-                        task: tasks[index],
-                      ));
-                    },
-                  ),
-                ));
+            return Card(
+              color: kDarkBlue,
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+              child: ListTile(
+                contentPadding: EdgeInsets.all(8),
+                leading: const Icon(
+                  Icons.task,
+                  size: 40,
+                  color: kCyan,
+                ),
+                trailing: tasks[index].status == "PENDING"
+                    ? const Icon(
+                        Icons.timer,
+                        color: kCyan,
+                      )
+                    : const Icon(
+                        Icons.done,
+                        color: kCyan,
+                      ),
+                title: Text(tasks[index].taskName),
+                subtitle: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    double lineHeight = 20.0; // Adjust line height as needed
+                    int maxLines = (constraints.maxHeight.isFinite)
+                        ? constraints.maxHeight ~/ lineHeight
+                        : 3; // Default value if maxHeight is not finite
+
+                    return Wrap(
+                      children: [
+                        Text(
+                          tasks[index].taskDescription,
+                          maxLines: maxLines,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                onTap: () {
+                  Get.to(TaskDetailsScreen(
+                    task: tasks[index],
+                  ));
+                },
+              ),
+            );
           },
-        ),
+        ) : Text("Hii"),
       ),
     );
   }

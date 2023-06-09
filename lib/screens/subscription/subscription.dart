@@ -45,7 +45,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       subscriptionFlag = userController.user.value['subscription'];
       userId = userController.user.value['userId'];
     });
-    print(subscriptionFlag);
   }
 
   @override

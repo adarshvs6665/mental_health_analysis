@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mental_health_analysis/controllers/questionController.dart';
+import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/screens/welcome/welcome_screen.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,17 +15,40 @@ class ScoreScreen extends StatefulWidget {
 }
 
 class _ScoreScreenState extends State<ScoreScreen> {
-  final _questionController = Get.find<QuestionController2>();
+  QuestionController2 questionController = Get.put(QuestionController2());
+  final userController = Get.find<UserController>();
+  late final userId;
+
+  Future<void> evaluateAnalysis() async {
+    const url = '$baseUrl/evaluate-analysis'; // Replace with your API endpoint
+
+    try {
+      final headers = {'Content-Type': 'application/json'};
+      final payload = jsonEncode(
+          {"userId": userId, "score": questionController.totalScore});
+      final response =
+          await http.post(Uri.parse(url), headers: headers, body: payload);
+      final responseData = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        final userData = responseData['data'];
+        userController.setUser(userData);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      userId = userController.user.value['userId'];
+    });
+    evaluateAnalysis();
   }
 
   @override
   Widget build(BuildContext context) {
-    QuestionController2 questionController = Get.put(QuestionController2());
-
     return WillPopScope(
         onWillPop: () async {
           Get.off(const WelcomeScreen(loadIndex: 0));
@@ -106,7 +133,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
                                                     Color>(kCyan),
                                           ),
                                           onPressed: () {
-                                            Get.off(WelcomeScreen(loadIndex: 0));
+                                            Get.off(
+                                                WelcomeScreen(loadIndex: 0));
                                           },
                                           child: const Text(
                                             'Go to Home Page',
