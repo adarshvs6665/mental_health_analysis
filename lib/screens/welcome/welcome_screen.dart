@@ -109,9 +109,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Spacer(flex: 6), //2/6
+                  const Spacer(flex: 6), //2/6
 
-                  Spacer(), // 1/6
+                  const Spacer(), // 1/6
                   //promotion card
 
                   Container(
@@ -128,16 +128,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           children: [
                             Text(
                               "Welcome ${userName}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: kCyan,
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Text(
+                            const Text(
                               "Unlock insights into your mental well-being with our powerful analysis app",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
                               ),
@@ -260,7 +260,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   //   ],
                   // ),
 
-                  Spacer(),
+                  const Spacer(),
                   const Spacer(flex: 2), // it will take 2/6 spaces
                   // Padding(
                   //   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
@@ -302,7 +302,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        backgroundColor: Color.fromARGB(255, 44, 72, 255),
+        backgroundColor: const Color.fromARGB(255, 44, 72, 255),
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home, color: _selectedIndex == 0 ? kCyan : null),

@@ -77,7 +77,7 @@ class _BodyState extends State<Body> {
       return Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/bg.jpeg"),
                 fit: BoxFit.cover,
@@ -132,6 +132,12 @@ class _BodyState extends State<Body> {
       );
     } else {
       return Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/bg.jpeg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
