@@ -55,7 +55,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            child: SvgPicture.asset(
+            child: Image.asset(
               "assets/images/bg.jpeg",
               fit: BoxFit.fill,
             ),
@@ -115,7 +115,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   //promotion card
 
                   Container(
-                      height: 350,
+                      height: 400,
                       decoration: BoxDecoration(
                         color: kDarkBlue,
                         borderRadius: BorderRadius.circular(10),
@@ -180,85 +180,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           ],
                         ),
                       )),
-
-                  // Stack(
-                  //   alignment: Alignment.topRight,
-                  //   clipBehavior: Clip.none,
-                  //   children: [
-                  //     Container(
-                  //       width: size.width,
-                  //       height: 250,
-                  //       padding: const EdgeInsets.all(20.0),
-                  //       decoration: BoxDecoration(
-                  //         color: const Color(0xFF132342),
-                  //         borderRadius: BorderRadius.circular(10.0),
-                  //       ),
-                  //       child: Column(
-                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Text(
-                  //             Promotion['title'].toString(),
-                  //             style: const TextStyle(
-                  //               fontSize: 25.0,
-                  //               color: Colors.white,
-                  //               fontWeight: FontWeight.w700,
-                  //             ),
-                  //           ),
-                  //           const SizedBox(height: 7.0),
-                  //           Container(
-                  //             width: size.width * .425,
-                  //             child: Text(
-                  //               Promotion['subTitle'].toString(),
-                  //               style: const TextStyle(
-                  //                 fontSize: 15.0,
-                  //                 color: Colors.white,
-                  //                 fontWeight: FontWeight.w400,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //           const Spacer(),
-                  //           Container(
-                  //             height: 35.0,
-                  //             width: 100.0,
-                  //             alignment: Alignment.center,
-                  //             decoration: BoxDecoration(
-                  //               color: const Color(0xFF2EA5FF).withOpacity(0.7),
-                  //               borderRadius: BorderRadius.circular(100.0),
-                  //               boxShadow: [
-                  //                 BoxShadow(
-                  //                   color: const Color(0xFF2EA5FF)
-                  //                       .withOpacity(0.5),
-                  //                   spreadRadius: 0.0,
-                  //                   blurRadius: 6.0,
-                  //                   offset: const Offset(0, 2),
-                  //                 )
-                  //               ],
-                  //             ),
-                  //             child: const Text(
-                  //               'Enroll Now',
-                  //               style: TextStyle(
-                  //                 fontSize: 15.0,
-                  //                 color: Colors.white,
-                  //                 fontWeight: FontWeight.w700,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     Positioned(
-                  //       top: -20.0,
-                  //       right: 0.0,
-                  //       child: Container(
-                  //         height: size.width * .4,
-                  //         child: SvgPicture.asset(
-                  //           "assets/images/dog_reading_vector.svg",
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
 
                   const Spacer(),
                   const Spacer(flex: 2), // it will take 2/6 spaces

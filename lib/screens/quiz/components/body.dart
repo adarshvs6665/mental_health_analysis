@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:mental_health_analysis/controllers/questionController.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
 import 'package:mental_health_analysis/models/Question.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'question_card.dart';
 

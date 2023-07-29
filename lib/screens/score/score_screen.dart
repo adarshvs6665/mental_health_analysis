@@ -7,7 +7,6 @@ import 'package:mental_health_analysis/controllers/questionController.dart';
 import 'package:mental_health_analysis/controllers/userController.dart';
 import 'package:mental_health_analysis/screens/welcome/welcome_screen.dart';
 import 'package:mental_health_analysis/utils/constants.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ScoreScreen extends StatefulWidget {
   @override
@@ -105,7 +104,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                                       ),
                                       const SizedBox(height: 10),
                                       if (questionController.totalScore <=
-                                          15) ...[
+                                          81) ...[
                                         const Text(
                                           "You seem to be having a really bad day. It's a part of life. This too shall pass.  Don't be afraid to reachout. You can contact the psychologists available in the app for guidance after subscription.",
                                           style: TextStyle(
